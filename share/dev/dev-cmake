@@ -31,17 +31,7 @@ Options:
 CURRENT_SOURCE_FILE_DIR="$(dirname -- "$CURRENT_SOURCE_FILE_PATH")"
 CURRENT_SOURCE_FILE_DATADIR="$CURRENT_SOURCE_FILE_DIR"/..
 
-# This function log messages to stderr works like printf
-# with a prefix of the current script name.
-# Arguments:
-#   $1 - The format string.
-#   $@ - Arguments to the format string, just like printf.
-function log() {
-	local format="$1"
-	shift
-	# shellcheck disable=SC2059
-	printf "$CURRENT_SOURCE_FILE_NAME: $format\n" "$@" >&2 || true
-}
+. "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-utils
 
 function main() {
 	while getopts ':h' option; do
@@ -57,8 +47,6 @@ function main() {
 		esac
 	done
 	shift $((OPTIND - 1))
-
-	. "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-utils
 
 	if [ ! -f "$PWD"/CMakeUserPresets.json ]; then
 		ln -s \

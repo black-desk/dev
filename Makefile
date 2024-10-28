@@ -35,6 +35,7 @@ install-data:
 	$(INSTALL_DATA) share/dev/dev-cargo "$(DESTDIR)$(datarootdir)"/dev/dev-cargo
 	$(INSTALL_DATA) share/dev/dev-cmake "$(DESTDIR)$(datarootdir)"/dev/dev-cmake
 	$(INSTALL_DATA) share/dev/dev-go "$(DESTDIR)$(datarootdir)"/dev/dev-go
+	$(INSTALL_DATA) share/dev/dev-npm "$(DESTDIR)$(datarootdir)"/dev/dev-npm
 	$(INSTALL_DATA) share/dev/dev-utils "$(DESTDIR)$(datarootdir)"/dev/dev-utils
 
 .PHONY: install
@@ -51,6 +52,7 @@ uninstall-data:
 	rm -f "$(DESTDIR)$(datarootdir)"/dev/dev-cargo
 	rm -f "$(DESTDIR)$(datarootdir)"/dev/dev-cmake
 	rm -f "$(DESTDIR)$(datarootdir)"/dev/dev-go
+	rm -f "$(DESTDIR)$(datarootdir)"/dev/dev-npm
 	rm -f "$(DESTDIR)$(datarootdir)"/dev/dev-utils
 
 .PHONY: uninstall

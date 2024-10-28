@@ -9,7 +9,19 @@
 set -e
 set -o pipefail
 
+# This function log messages to stderr works like printf
+# with a prefix of the current script name.
+# Arguments:
+#   $1 - The format string.
+#   $@ - Arguments to the format string, just like printf.
+function log() {
+	local format="$1"
+	shift
+	# shellcheck disable=SC2059
+	printf "$CURRENT_SOURCE_FILE_NAME: $format\n" "$@" >&2 || true
+}
+
 function execute_with_echo() {
-	echo -e "\e[34mExecuting \`$*\` \e[0m"
+	log "\e[34mExecuting \`$*\` \e[0m"
 	"$@"
 }

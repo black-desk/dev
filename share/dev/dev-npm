@@ -47,9 +47,9 @@ function main() {
 	done
 	shift $((OPTIND - 1))
 
-	execute_with_echo cargo build --workspace
-	execute_with_echo cargo test --workspace
-	execute_with_echo cargo bench --workspace
+	execute_with_echo npm install
+	execute_with_echo npm run build
+	execute_with_echo npm run test
 }
 
 main "$@"

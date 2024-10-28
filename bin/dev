@@ -19,11 +19,26 @@ CURRENT_SOURCE_FILE_NAME="$(basename -- "$CURRENT_SOURCE_FILE_PATH")"
 USAGE="$CURRENT_SOURCE_FILE_NAME"'
 
 Setup project development environment.
+This script detects the build system of the project
+then build and test the project.
+
+Run this script to setup your development environment
+or after you make changes to the project,
+to check whether you build the project correctly.
 
 '"
 Usage:
   $CURRENT_SOURCE_FILE_NAME -h
   $CURRENT_SOURCE_FILE_NAME
+  $CURRENT_SOURCE_FILE_NAME [BUILD_SYSTEM] [OPTIONS]
+
+Build systems:
+  autotools
+  cmake
+  meson
+  go
+  cargo
+  npm
 
 Options:
   -h	Show this screen.
@@ -33,17 +48,7 @@ CURRENT_SOURCE_FILE_DIR="$(dirname -- "$CURRENT_SOURCE_FILE_PATH")"
 CURRENT_SOURCE_FILE_PREFIX="$CURRENT_SOURCE_FILE_DIR"/..
 CURRENT_SOURCE_FILE_DATADIR="$CURRENT_SOURCE_FILE_PREFIX"/share
 
-# This function log messages to stderr works like printf
-# with a prefix of the current script name.
-# Arguments:
-#   $1 - The format string.
-#   $@ - Arguments to the format string, just like printf.
-function log() {
-	local format="$1"
-	shift
-	# shellcheck disable=SC2059
-	printf "$CURRENT_SOURCE_FILE_NAME: $format\n" "$@" >&2 || true
-}
+. "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-utils
 
 function main() {
 	while getopts ':hv' option; do
@@ -53,36 +58,56 @@ function main() {
 			exit
 			;;
 		v)
-			echo "0.1.0"
+			echo "v0.1.0"
 			exit
 			;;
-		\?)
-			log "[ERROR] Unknown option: -%s" "$OPTARG"
-			exit 1
+		*)
+			true
 			;;
 		esac
 	done
 	shift $((OPTIND - 1))
 
+	local build_system="$1"
+	shift || true
+
+	if [ -n "$build_system" ]; then
+		if [ ! -f "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-"$build_system" ]; then
+			log "[ERROR] Unsupported build system: $build_system"
+			false
+		fi
+		exec bash "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-"$build_system" "$@"
+	fi
+
 	if [ -f "$PWD"/autogen.sh ] ||
 		[ -f "$PWD"/configure.ac ] ||
 		[ -f "$PWD"/Makefile ]; then
+		log "[INFO] Detected autotools"
 		exec bash "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-autotools "$@"
 	fi
 
 	if [ -f "$PWD"/CMakeLists.txt ]; then
+		log "[INFO] Detected cmake"
 		exec bash "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-cmake "$@"
 	fi
 
 	if [ -f "$PWD"/go.mod ]; then
+		log "[INFO] Detected golang"
 		exec bash "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-go "$@"
 	fi
 
 	if [ -f "$PWD"/Cargo.toml ]; then
+		log "[INFO] Detected cargo"
 		exec bash "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-cargo "$@"
 	fi
 
-	log "[ERROR] Unsupported build system"
+	if [ -f "$PWD"/package-lock.json ]; then
+		log "[INFO] Detected npm"
+		exec bash "$CURRENT_SOURCE_FILE_DATADIR"/dev/dev-npm "$@"
+	fi
+
+	log "[ERROR] Failed to detect build system"
+	false
 }
 
 main "$@"
