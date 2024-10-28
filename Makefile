@@ -13,6 +13,11 @@ SHELL = sh
 .PHONY: all
 all:
 
+.PHONY: test
+test:
+	@echo "No tests yet"
+	@false
+
 .PHONY: install-bin
 install-bin:
 	$(INSTALL) -d "$(DESTDIR)$(bindir)"
