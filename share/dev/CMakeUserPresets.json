@@ -1,0 +1,65 @@
+{
+        "version": 6,
+        "cmakeMinimumRequired": {
+                "major": 3,
+                "minor": 25,
+                "patch": 0
+        },
+        "configurePresets": [
+                {
+                        "name": "dev",
+                        "displayName": "The dev profile",
+                        "description": "The default configuration for developers",
+                        "binaryDir": "${sourceDir}/build",
+                        "cacheVariables": {
+                                "CMAKE_LINKER_TYPE": "$env{CMAKE_LINKER_TYPE}",
+                                "CMAKE_C_CLANG_TIDY": "$env{CMAKE_C_CLANG_TIDY}",
+                                "CMAKE_CXX_CLANG_TIDY": "$env{CMAKE_CXX_CLANG_TIDY}",
+                                "CMAKE_C_FLAGS": "-Wall -Wextra -Wpedantic -Werror -O0 -g3 -fsanitize=address,undefined $env{CFLAGS}",
+                                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Werror -O0 -g3 -fsanitize=address,undefined $env{CXXFLAGS}",
+                                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                                "CMAKE_COLOR_DIAGNOSTICS": true
+                        }
+                }
+        ],
+        "buildPresets": [
+                {
+                        "name": "dev",
+                        "configurePreset": "dev"
+                }
+        ],
+        "testPresets": [
+                {
+                        "name": "dev",
+                        "configurePreset": "dev",
+                        "output": {
+                                "outputOnFailure": true
+                        },
+                        "execution": {
+                                "noTestsAction": "default",
+                                "stopOnFailure": true
+                        }
+                }
+        ],
+        "workflowPresets": [
+                {
+                        "name": "dev",
+                        "displayName": "The default workflow for developers",
+                        "description": "Configure, build then test",
+                        "steps": [
+                                {
+                                        "type": "configure",
+                                        "name": "default"
+                                },
+                                {
+                                        "type": "build",
+                                        "name": "default"
+                                },
+                                {
+                                        "type": "test",
+                                        "name": "default"
+                                }
+                        ]
+                }
+        ]
+}
