@@ -59,7 +59,7 @@ function main() {
 
 	local LLVM=${LLVM:-1}
 
-	if [ -z "$LLVM" ] && command -v "clang" &>/dev/null; then
+	if [ "$LLVM" != 0 ] && command -v "clang" &>/dev/null; then
 		export CMAKE_C_COMPILER="clang"
 
 		if command -v "clang-tidy" &>/dev/null; then
@@ -67,7 +67,7 @@ function main() {
 		fi
 	fi
 
-	if [ -z "$LLVM" ] && command -v "clang++" &>/dev/null; then
+	if [ "$LLVM" != 0 ] && command -v "clang++" &>/dev/null; then
 		export CMAKE_CXX_COMPILER="clang++"
 
 		if command -v "clang-tidy" &>/dev/null; then
@@ -75,7 +75,7 @@ function main() {
 		fi
 	fi
 
-	if [ -z "$LLVM" ] && command -v "lld" &>/dev/null; then
+	if [ "$LLVM" != 0 ] && command -v "lld" &>/dev/null; then
 		export CMAKE_LINKER_TYPE="lld"
 		if cmake --version | grep -v -q '^cmake version 3\.29'; then
 			export CFLAGS="$CFLAGS -fuse-ld=lld"
