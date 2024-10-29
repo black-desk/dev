@@ -63,7 +63,7 @@ function main() {
 		export CMAKE_C_COMPILER="clang"
 
 		if command -v "clang-tidy" &>/dev/null; then
-			export CMAKE_C_CLANG_TIDY="clang-tidy"
+			export CMAKE_C_CLANG_TIDY="clang-tidy;--use-color"
 		fi
 	fi
 
