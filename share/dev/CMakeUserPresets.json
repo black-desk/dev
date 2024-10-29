@@ -49,15 +49,15 @@
                         "steps": [
                                 {
                                         "type": "configure",
-                                        "name": "default"
+                                        "name": "dev"
                                 },
                                 {
                                         "type": "build",
-                                        "name": "default"
+                                        "name": "dev"
                                 },
                                 {
                                         "type": "test",
-                                        "name": "default"
+                                        "name": "dev"
                                 }
                         ]
                 }
