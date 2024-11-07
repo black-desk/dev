@@ -60,7 +60,7 @@ function main() {
 	local LLVM=${LLVM:-1}
 
 	if [ "$LLVM" != 0 ] && command -v "clang" &>/dev/null; then
-		export CMAKE_C_COMPILER="clang"
+		export CC="clang"
 
 		if command -v "clang-tidy" &>/dev/null; then
 			export CMAKE_C_CLANG_TIDY="clang-tidy;--use-color"
@@ -68,7 +68,7 @@ function main() {
 	fi
 
 	if [ "$LLVM" != 0 ] && command -v "clang++" &>/dev/null; then
-		export CMAKE_CXX_COMPILER="clang++"
+		export CXX="clang++"
 
 		if command -v "clang-tidy" &>/dev/null; then
 			export CMAKE_CXX_CLANG_TIDY="clang-tidy"
