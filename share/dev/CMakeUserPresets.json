@@ -12,6 +12,7 @@
                         "description": "The default configuration for developers",
                         "binaryDir": "${sourceDir}/build",
                         "cacheVariables": {
+                                "CMAKE_BUILD_TYPE": "Debug",
                                 "CMAKE_COLOR_DIAGNOSTICS": true,
                                 "CMAKE_CXX_COMPILER_LAUNCHER": "$env{CMAKE_CXX_COMPILER_LAUNCHER}",
                                 "CMAKE_CXX_CLANG_TIDY": "$env{CMAKE_CXX_CLANG_TIDY}",
