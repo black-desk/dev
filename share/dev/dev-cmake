@@ -88,7 +88,7 @@ function main() {
 	fi
 
 	if command -v "ninja" &>/dev/null; then
-		export CMAKE_GENERATOR="Ninja Multi-Config"
+		export CMAKE_GENERATOR="Ninja"
 	fi
 
 	execute_with_echo cmake --workflow --preset="$dev" --fresh
