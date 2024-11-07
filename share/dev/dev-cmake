@@ -48,7 +48,7 @@ function main() {
 	done
 	shift $((OPTIND - 1))
 
-	if [ ! -f "$PWD"/CMakeUserPresets.json ]; then
+	if ! cmake --list-presets | grep dev -q; then
 		ln -s \
 			"$CURRENT_SOURCE_FILE_DATADIR"/dev/CMakeUserPresets.json \
 			"$PWD"/CMakeUserPresets.json
